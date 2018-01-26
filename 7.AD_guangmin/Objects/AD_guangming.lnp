@@ -1,0 +1,5 @@
+".\Objects\STARTUP.obj",
+".\Objects\AT_guangming.obj",
+".\Objects\iic.obj" 
+TO ".\Objects\AD_guangming" 
+PRINT(".\Listings\AD_guangming.m51")

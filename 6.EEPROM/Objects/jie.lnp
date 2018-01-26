@@ -1,0 +1,6 @@
+".\Objects\STARTUP.obj",
+".\Objects\EEPROM.obj",
+".\Objects\iic.obj",
+".\Objects\time_1.obj" 
+TO ".\Objects\jie" 
+PRINT(".\Listings\jie.m51")

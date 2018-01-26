@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\PWM.obj" 
+TO ".\Objects\PWM" 
+PRINT(".\Listings\PWM.m51")

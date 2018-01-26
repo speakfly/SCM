@@ -1,0 +1,130 @@
+C51 COMPILER V9.57.0.0   TIME_0                                                            01/20/2018 21:17:17 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE TIME_0
+OBJECT MODULE PLACED IN .\Objects\time_0.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE time_0.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\ti
+                    -me_0.lst) TABS(2) OBJECT(.\Objects\time_0.obj)
+
+line level    source
+
+   1          #include<regx52.h>
+   2          
+   3          
+   4          unsigned char code tab[] = {0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90,0xff,0xbf};
+   5          unsigned char dsbuff[]={10,10,10,10,10,10,10,10};
+   6          unsigned char dscom=0;
+   7          int count=0;
+   8          void buzz()
+   9          {
+  10   1          P2=(P2&0x1f)|0xa0;
+  11   1          P0=0x00;
+  12   1          P2=P2&0x1f;
+  13   1      }
+  14          
+  15          
+  16          void display()
+  17          {
+  18   1        P2=(P2&0x1f)|0xe0;
+  19   1        P0=0xff;
+  20   1        P2=P2&0x1f;
+  21   1      
+  22   1        P2=(P2&0x1f)|0xc0;
+  23   1        P0=1<<dscom;
+  24   1        P2=P2&0x1f;
+  25   1      
+  26   1        P2=(P2&0x1f)|0xe0;
+  27   1        P0=tab[dsbuff[dscom]];
+  28   1        P2=P2&0x1f;
+  29   1      
+  30   1        if(++dscom==8)
+  31   1        {
+  32   2          dscom=0;
+  33   2        }
+  34   1      }
+  35          void time1_init()
+  36          {
+  37   1        TMOD|=0x10;
+  38   1        TH1 = (65535-2000)/256;
+  39   1        TL1 = (65535-2000)%256;
+  40   1        ET1=1;
+  41   1        EA=1;
+  42   1        TR1=1;
+  43   1      }
+  44          void time0_init()
+  45          {
+  46   1      
+  47   1        TMOD|=0x05;
+  48   1        TH0 = 0;
+  49   1        TL0 = 0;
+  50   1        ET0=1;
+  51   1        TR0=1;
+  52   1        IT0=1;
+  53   1      }
+  54          
+C51 COMPILER V9.57.0.0   TIME_0                                                            01/20/2018 21:17:17 PAGE 2   
+
+  55          void display_count()
+  56          {
+  57   1        int num;
+  58   1        int i;
+  59   1        i=7;
+  60   1        if(count==500)
+  61   1        {
+  62   2          count=0;
+  63   2          num=TH0*256+TL0;
+  64   2          TH0=0;
+  65   2          TL0=0;
+  66   2      //    dsbuff[3]=(num>=10000) ? (num/10000):0;   num=num%10000;
+  67   2      //    dsbuff[4]=(num>=1000) ? (num/1000):0;     num=num%1000;
+  68   2      //    dsbuff[5]=(num>=100) ? (num/100):0;       num=num%100;
+  69   2      //    dsbuff[6]=(num>=10) ? (num/10):0;         num=num%10;
+  70   2      //    dsbuff[7]=num%10;
+  71   2      
+  72   2          while(num>0)
+  73   2          {
+  74   3            dsbuff[i]=num%10;
+  75   3            num=num/10;
+  76   3            i--;
+  77   3          }
+  78   2          do
+  79   2          {
+  80   3            dsbuff[i]=10;
+  81   3            i--;
+  82   3          }while(i>=0);
+  83   2        }
+  84   1      }
+  85          
+  86          void time1_interrupt()  interrupt 3
+  87          {
+  88   1        TH1 = (65535-2000)/256;
+  89   1        TL1 = (65535-2000)%256;
+  90   1        display();
+  91   1        count++;
+  92   1      }
+  93          
+  94          
+  95          void main()
+  96          {
+  97   1        buzz();
+  98   1        time0_init();
+  99   1        time1_init();
+ 100   1        while(1)
+ 101   1        {
+ 102   2         display_count();
+ 103   2        }
+ 104   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    292    ----
+   CONSTANT SIZE    =     12    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     11       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,169 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    01/19/2018  11:19:51  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\led.obj TO .\Objects\LED PRINT (.\Listings\LED.m51) RAMSIZE
+>>  (64)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\led.obj (LED)
+
+
+LINK MAP OF MODULE:  .\Objects\LED (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     001CH     UNIT         ?PR?LED_1?LED
+            CODE    001FH     001CH     UNIT         ?CO?LED
+            CODE    003BH     000FH     UNIT         ?PR?CLOSE_BUZZ?LED
+            CODE    004AH     000DH     UNIT         ?PR?DELAY500MS?LED
+            CODE    0057H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0063H     0006H     UNIT         ?PR?MAIN?LED
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\LED (?C_STARTUP)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?LED
+
+?PR?MAIN?LED
+  +--> ?PR?CLOSE_BUZZ?LED
+  +--> ?PR?LED_1?LED
+
+?PR?LED_1?LED
+  +--> ?CO?LED
+  +--> ?PR?DELAY500MS?LED
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\LED (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/19/2018  11:19:51  PAGE 2
+
+
+  -------         MODULE        ?C_STARTUP
+  C:0057H         SEGMENT       ?C_C51STARTUP
+  I:0008H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:005AH         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:0057H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:0057H         LINE#         133
+  C:0059H         LINE#         134
+  C:005AH         LINE#         135
+  C:005BH         LINE#         136
+  C:005DH         LINE#         185
+  C:0060H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        LED
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  C:0063H         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:001FH         PUBLIC        tab
+  C:0003H         PUBLIC        led_1
+  C:003BH         PUBLIC        close_buzz
+  D:00C8H         PUBLIC        T2CON
+  C:004AH         PUBLIC        Delay500ms
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          CLOSE_BUZZ
+  C:003BH         LINE#         3
+  C:003BH         LINE#         4
+  C:003BH         LINE#         5
+  C:0043H         LINE#         6
+  C:0046H         LINE#         7
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/19/2018  11:19:51  PAGE 3
+
+
+  C:0049H         LINE#         8
+  -------         ENDPROC       CLOSE_BUZZ
+  -------         PROC          DELAY500MS
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  D:0005H         SYMBOL        k
+  -------         ENDDO         
+  C:004AH         LINE#         11
+  C:004AH         LINE#         12
+  C:004AH         LINE#         14
+  C:004CH         LINE#         15
+  C:004EH         LINE#         16
+  C:0050H         LINE#         18
+  C:0050H         LINE#         20
+  C:0050H         LINE#         21
+  C:0052H         LINE#         22
+  C:0054H         LINE#         23
+  C:0056H         LINE#         24
+  -------         ENDPROC       DELAY500MS
+  -------         PROC          LED_1
+  -------         DO            
+  D:0004H         SYMBOL        i
+  -------         ENDDO         
+  C:0003H         LINE#         27
+  C:0003H         LINE#         28
+  C:0003H         LINE#         30
+  C:000BH         LINE#         31
+  C:000DH         LINE#         32
+  C:000DH         LINE#         33
+  C:0014H         LINE#         34
+  C:0017H         LINE#         35
+  C:001BH         LINE#         36
+  C:001EH         LINE#         37
+  -------         ENDPROC       LED_1
+  -------         PROC          MAIN
+  C:0063H         LINE#         41
+  C:0063H         LINE#         42
+  C:0063H         LINE#         43
+  C:0066H         LINE#         44
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        LED
+
+Program Size: data=9.0 xdata=0 code=105
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
