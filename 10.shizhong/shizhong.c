@@ -1,7 +1,3 @@
-/**
-功能：按照预设显示时间（不能进行设置，只显示时间不显示日期）
-实现：set_time设置时间  get_time获取时间  dstime_sfm显示时间
-**/
 #include <regx52.h>
 #include "ds1302.h"
 
@@ -38,12 +34,12 @@ void Delay100ms()		//@11.0592MHz
 	} while (--i);
 }
 
-void delay(int n)
-{
-    char z=110;
-    while(n--)
-    for(z=0;z<110;z++);
-}
+void delay(int n)  
+{  
+    char z=110;  
+    while(n--)  
+    for(z=0;z<110;z++);  
+}  
 void get_time()   //获取时间
 {
     char i;
@@ -115,7 +111,7 @@ void dstime_sfm()    //显示时间
 
 //void dstime_nyr()         //显示年月日
 //{
-//    //BCD转码
+//    //BCD转码  
 //    dsbuff[6]=(g_time[3]&0x30)>>4;//日十位
 //    dsbuff[7]=g_time[3]&0x0f;     //日各位
 

@@ -1,3 +1,7 @@
+/**
+功能:P3.4引脚输出30%的占空比
+实现：中断
+**/
 #include<regx52.h>
 sbit PWM=P3^4;
 unsigned char count=0;

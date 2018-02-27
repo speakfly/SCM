@@ -1,0 +1,308 @@
+C51 COMPILER V9.57.0.0   TIME_1                                                            01/25/2018 12:22:26 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE TIME_1
+OBJECT MODULE PLACED IN .\Objects\time_1.obj
+COMPILER INVOKED BY: D:\keil\C51\BIN\C51.EXE time_1.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\time_
+                    -1.lst) TABS(2) OBJECT(.\Objects\time_1.obj)
+
+line level    source
+
+   1          #include"EEPROM.h"
+   2          
+   3          unsigned char code tab[] = {0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f,0x77,0x7c,0x39,0x5e,0x79,0x7
+             -1,0x00,0x54};
+   4          int dsbuff[]={16,16,16,16,16,16,16,16};
+   5          unsigned char dscom=0;
+   6          int wei=0;
+   7          sfr P4 = 0xc0;
+   8          
+   9          sbit r4 = P3^3;
+  10          sbit r3 = P3^2;
+  11          sbit r2 = P3^1;
+  12          sbit r1 = P3^0;
+  13          
+  14          
+  15          sbit c1 = P4^4;
+  16          sbit c2 = P4^2;
+  17          sbit c3 = P3^5;
+  18          sbit c4 = P3^4;
+  19          
+  20          //数码管显示
+  21          void display()
+  22          {
+  23   1        P2=(P2&0x1f)|0xe0;
+  24   1        P0=0xff;
+  25   1        P2=P2&0x1f;
+  26   1      
+  27   1        P2=(P2&0x1f)|0xc0;
+  28   1        P0=1<<dscom;
+  29   1        P2=P2&0x1f;
+  30   1      
+  31   1        P2=(P2&0x1f)|0xe0;
+  32   1        P0=~tab[dsbuff[dscom]];
+  33   1        P2=P2&0x1f;
+  34   1      
+  35   1        if(++dscom==8)
+  36   1        {
+  37   2          dscom=0;
+  38   2        }
+  39   1      }
+  40          
+  41          
+  42          //定时器0中断
+  43          void smg_initerrupt() interrupt 1
+  44          {
+  45   1        TH0 = (65535-2000)/256;
+  46   1        TL0 = (65535-2000)%256;
+  47   1        display();
+  48   1       }
+  49          
+  50          
+  51          
+  52          
+  53          //延时15ms
+C51 COMPILER V9.57.0.0   TIME_1                                                            01/25/2018 12:22:26 PAGE 2   
+
+  54          void Delay15ms()    //@11.0592MHz
+  55          {
+  56   1        unsigned char i, j;
+  57   1      
+  58   1        i = 216;
+  59   1        j = 109;
+  60   1        do
+  61   1        {
+  62   2          while (--j);
+  63   2        } while (--i);
+  64   1      }
+  65          
+  66          
+  67          
+  68          //按键扫描
+  69          unsigned char key_scan()
+  70          {
+  71   1        r1=0;
+  72   1        r2=r3=r4=1;
+  73   1        c1=c2=c3=c4=1;
+  74   1        if(!c1){Delay15ms();if(!c1){while(!c1);Delay15ms();return 0;}}
+  75   1        else if(!c2){Delay15ms();if(!c2){while(!c2);Delay15ms();return 1;}}
+  76   1        else if(!c3){Delay15ms();if(!c3){while(!c3);Delay15ms();return 2;}}
+  77   1        else if(!c4){Delay15ms();if(!c4){while(!c4);Delay15ms();return 3;}}
+  78   1      
+  79   1      
+  80   1        r2=0;
+  81   1        r1=r3=r4=1;
+  82   1        c1=c2=c3=c4=1;
+  83   1        if(!c1){Delay15ms();if(!c1){while(!c1);Delay15ms();return 4;}}
+  84   1        else if(!c2){Delay15ms();if(!c2){while(!c2);Delay15ms();return 5;}}
+  85   1        else if(!c3){Delay15ms();if(!c3){while(!c3);Delay15ms();return 6;}}
+  86   1        else if(!c4){Delay15ms();if(!c4){while(!c4);Delay15ms();return 7;}}
+  87   1      
+  88   1      
+  89   1        r3=0;
+  90   1        r1=r2=r4=1;
+  91   1        c1=c2=c3=c4=1;
+  92   1        if(!c1){Delay15ms();if(!c1){while(!c1);Delay15ms();return 8;}}
+  93   1        else if(!c2){Delay15ms();if(!c2){while(!c2);Delay15ms();return 9;}}
+  94   1        else if(!c3){Delay15ms();if(!c3){while(!c3);Delay15ms();return 10;}}
+  95   1        else if(!c4){Delay15ms();if(!c4){while(!c4);Delay15ms();return 11;}}
+  96   1      
+  97   1        r4=0;
+  98   1        r1=r2=r3=1;
+  99   1        c1=c2=c3=c4=1;
+ 100   1        if(!c1){Delay15ms();if(!c1){while(!c1);Delay15ms();return 12;}}
+ 101   1        else if(!c2){Delay15ms();if(!c2){while(!c2);Delay15ms();return 13;}}
+ 102   1        else if(!c3){Delay15ms();if(!c3){while(!c3);Delay15ms();return 14;}}
+ 103   1        else if(!c4){Delay15ms();if(!c4){while(!c4);Delay15ms();return 15;}}
+ 104   1      
+ 105   1        return 16;
+ 106   1      }
+ 107          
+ 108          //关闭蜂鸣器
+ 109          void close_buzz()
+ 110          {
+ 111   1          P2=(P2&0x1f)|0xa0;
+ 112   1          P0=0x00;
+ 113   1          P2=P2&0x1f;
+ 114   1      }
+ 115          
+C51 COMPILER V9.57.0.0   TIME_1                                                            01/25/2018 12:22:26 PAGE 3   
+
+ 116          //初始化定时器0
+ 117          void init_smg()
+ 118          {
+ 119   1        TMOD|=0x01;
+ 120   1        TH0 = (65535-2000)/256;
+ 121   1        TL0 = (65535-2000)%256;
+ 122   1        ET0=1;
+ 123   1        EA=1;
+ 124   1        TR0=1;
+ 125   1      }
+ 126          
+ 127          
+ 128          void clear_smg()
+ 129          {
+ 130   1        unsigned char i;
+ 131   1        for(i=0;i<8;i++)
+ 132   1        dsbuff[i]=16;
+ 133   1      }
+ 134          //设置结束界面
+ 135          void end_UI()
+ 136          {
+ 137   1        unsigned char i;
+ 138   1        for(i=3;i<8;i++)
+ 139   1        {
+ 140   2          dsbuff[i]=16;
+ 141   2        }
+ 142   1        dsbuff[0]=14;
+ 143   1        dsbuff[1]=17;
+ 144   1        dsbuff[2]=13;
+ 145   1      }
+ 146          
+ 147          
+ 148          //设置输入界面
+ 149          void init_UI()
+ 150          {
+ 151   1          unsigned char i;
+ 152   1          dsbuff[0]=1;
+ 153   1          dsbuff[1]=17;
+ 154   1          for(i=2;i<8;i++)
+ 155   1          {
+ 156   2            dsbuff[i]=16;
+ 157   2          }
+ 158   1      }
+ 159          
+ 160          //显示输入数据  和  缓存键值
+ 161          void num_input_display(unsigned char num)
+ 162          {
+ 163   1          if(wei==8)
+ 164   1          {
+ 165   2            clear_smg();
+ 166   2            wei=0;
+ 167   2          }
+ 168   1          dsbuff[wei]=num;
+ 169   1          wei++;
+ 170   1        
+ 171   1      }
+ 172          
+ 173          //保存键值到EEPROM
+ 174          void save()
+ 175          {
+ 176   1      //  unsigned char i;
+ 177   1      //  for(i=0;i<8;i++)
+C51 COMPILER V9.57.0.0   TIME_1                                                            01/25/2018 12:22:26 PAGE 4   
+
+ 178   1      //  write_eeprom(0x00+i,dsbuff[i]);
+ 179   1      //  write_eeprom(0x08,wei);
+ 180   1        write_eeprom(0x00,dsbuff[0]);
+ 181   1        write_eeprom(0x01,dsbuff[1]);
+ 182   1        write_eeprom(0x02,dsbuff[2]);
+ 183   1        write_eeprom(0x03,dsbuff[3]);
+ 184   1        write_eeprom(0x04,dsbuff[4]);
+ 185   1        write_eeprom(0x05,dsbuff[5]);
+ 186   1        write_eeprom(0x06,dsbuff[6]);
+ 187   1        write_eeprom(0x07,dsbuff[7]);
+ 188   1        write_eeprom(0x08,wei);
+ 189   1        
+ 190   1      }
+ 191          
+ 192          //读取EEPROM数据  并显示到数码管
+ 193          void read()
+ 194          {
+ 195   1      //  wei = read_eeprom(0x08) - 1;
+ 196   1      //  while(wei!=0)
+ 197   1      //  {
+ 198   1      //    dsbuff[wei]=read_eeprom(0x00+wei);
+ 199   1      //    wei--;
+ 200   1      //  }
+ 201   1        dsbuff[0]=read_eeprom(0x00);
+ 202   1        dsbuff[1]=read_eeprom(0x01);
+ 203   1        dsbuff[2]=read_eeprom(0x02);
+ 204   1        dsbuff[3]=read_eeprom(0x03);
+ 205   1        dsbuff[4]=read_eeprom(0x04);
+ 206   1        dsbuff[5]=read_eeprom(0x05);
+ 207   1        dsbuff[6]=read_eeprom(0x06);
+ 208   1        dsbuff[7]=read_eeprom(0x07);
+ 209   1        
+ 210   1      }
+ 211          
+ 212          //数字输入 按F 确认
+ 213          void num_input()
+ 214          {
+ 215   1        unsigned char num;
+ 216   1        while(1)
+ 217   1        {
+ 218   2          num=key_scan();
+ 219   2          while(num==16)
+ 220   2          {
+ 221   3            num=key_scan();
+ 222   3          }
+ 223   2          if(num==15)
+ 224   2          {
+ 225   3            save();
+ 226   3            end_UI();
+ 227   3            break;
+ 228   3          }
+ 229   2          if(num<=9&&num>=0)
+ 230   2          {
+ 231   3            if(wei==0)
+ 232   3            {
+ 233   4              clear_smg();
+ 234   4            }
+ 235   3            num_input_display(num);
+ 236   3          }
+ 237   2        }
+ 238   1      }
+ 239          
+C51 COMPILER V9.57.0.0   TIME_1                                                            01/25/2018 12:22:26 PAGE 5   
+
+ 240          
+ 241          //按键功能
+ 242          void key_function()
+ 243          {
+ 244   1        unsigned char num;
+ 245   1        //确定按键被按下
+ 246   1        //------------
+ 247   1        num=key_scan();
+ 248   1        while(num==16)
+ 249   1        {
+ 250   2          num=key_scan();
+ 251   2        }
+ 252   1        //--------------
+ 253   1      
+ 254   1        //按F键  进入输入界面  输入完 并保存
+ 255   1        if(num==15)
+ 256   1        {
+ 257   2          wei=0;
+ 258   2          init_UI();
+ 259   2          num_input();
+ 260   2        }
+ 261   1        //按E键  进入读取界面
+ 262   1        if(num==14)
+ 263   1        {
+ 264   2            read();
+ 265   2        }
+ 266   1      }
+ 267          void main()
+ 268          {
+ 269   1        close_buzz();    //关闭蜂鸣器
+ 270   1        init_smg();      //初始化定时器0
+ 271   1        while(1)
+ 272   1        {
+ 273   2            key_function();  //进入按键功能
+ 274   2        }
+ 275   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    897    ----
+   CONSTANT SIZE    =     18    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     19       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

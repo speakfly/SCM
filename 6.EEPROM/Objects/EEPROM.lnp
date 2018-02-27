@@ -1,0 +1,6 @@
+".\Objects\STARTUP.obj",
+".\Objects\time_1.obj",
+".\Objects\EEPROM.obj",
+".\Objects\iic.obj" 
+TO ".\Objects\EEPROM" 
+PRINT(".\Listings\EEPROM.m51") RAMSIZE(256) 

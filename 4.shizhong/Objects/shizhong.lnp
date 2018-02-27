@@ -1,0 +1,5 @@
+".\Objects\STARTUP.obj",
+".\Objects\shizhong.obj",
+".\Objects\ds1302.obj" 
+TO ".\Objects\shizhong" 
+PRINT(".\Listings\shizhong.m51") RAMSIZE(256) 

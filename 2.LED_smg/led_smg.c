@@ -1,6 +1,8 @@
+/**
+功能：让数码管0.5秒刷新一次数码管
+实现方法是：使用定时器中断，每2ms处理一个数码管
+**/
 #include<regx52.h>
-
-
 unsigned char code tab[] = {0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90,0xff,0xbf};
 unsigned char dsbuff[]={10,10,10,10,10,10,10,10};
 unsigned char dscom=0;
